@@ -10,7 +10,7 @@ namespace ChtotibDocsPrintNET.Services;
 
 public static class ImportService
 {
-    /// <summary>Импорт групп из Excel/CSV. Колонки: Название, Год набора, Корпус, Выпускная (да/1)</summary>
+    /// <summary>Импорт групп из Excel/CSV. Колонки: Название, Год набора, Корпус, Выпускная (да/1), Специальность (код или название, необязательно)</summary>
     public static string? ImportGroups()
     {
         var path = PickFile(ImportDataKind.Groups);
@@ -25,21 +25,28 @@ public static class ImportService
     public static string ImportGroupsFromFile(string path)
     {
             var rows = ReadFile(path);
+            var db = DatabaseService.Instance;
             int imported = 0;
             foreach (var row in rows)
             {
                 if (row.Count < 2) continue;
+                var specialtyId = 1;
+                if (row.Count > 4 && !string.IsNullOrWhiteSpace(row[4]))
+                {
+                    var spec = db.FindSpecialtyByCodeOrName(row[4].Trim());
+                    if (spec != null) specialtyId = spec.Id;
+                }
                 var g = new Group
                 {
                     Name = row[0],
                     EnrollmentYear = int.TryParse(row[1], out int y) ? y : DateTime.Now.Year,
                     Address = row.Count > 2 ? row[2] : null,
                     IsGraduating = row.Count > 3 && (row[3] == "1" || row[3].Equals("да", StringComparison.OrdinalIgnoreCase)),
-                    SpecialtyId = 1,
+                    SpecialtyId = specialtyId,
                     CourseNumber = 1
                 };
                 g.CourseNumber = Math.Clamp(DateTime.Now.Year - g.EnrollmentYear + (DateTime.Now.Month >= 9 ? 1 : 0), 1, 5);
-                DatabaseService.Instance.InsertGroup(g);
+                db.InsertGroup(g);
                 imported++;
             }
             return $"Импортировано групп: {imported}";
