@@ -1,0 +1,2 @@
+Серьезность	Код	Описание	Проект	Файл	Строка	Состояние подавления
+Ошибка	NETSDK1045	текущий пакет SDK для .NET не поддерживает целевой объект .NET 8.0. Выберите .NET 5.0 или более раннюю версию либо используйте версию пакета SDK для .NET, которая поддерживает .NET 8.0.	SeedDemoData	C:\Program Files\dotnet\sdk\5.0.202\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.TargetFrameworkInference.targets	141	
