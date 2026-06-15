@@ -1,0 +1,31 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+out/
+
+# Agent / local alternate build dirs
+_build*/
+_verify*/
+_buildtmp/
+
+# WPF design-time temp projects
+*_wpftmp.csproj
+
+# Visual Studio / Rider
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+project.lock.json
+
+# OS / IDE
+Thumbs.db
+.DS_Store
+*.log

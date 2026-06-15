@@ -1,0 +1,150 @@
+<UserControl x:Class="ChtotibDocsPrintNET.Views.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" Background="{DynamicResource PageBgBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  Padding="0,8,0,4"
+                  UseLayoutRounding="True">
+        <StackPanel Margin="30,16,30,24">
+
+            <!-- Уведомление (только при наличии ошибки) -->
+            <Border Background="{StaticResource WarningBrush}" CornerRadius="5" Padding="15,10" Margin="0,0,0,15"
+                    Visibility="{Binding HasWarning, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource WarnIcon}" Width="22" Height="22" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Важное уведомление о регистрационных номерах" FontWeight="Bold" FontSize="13"
+                                   Foreground="{StaticResource WarningTextBrush}"/>
+                        <TextBlock Text="{Binding WarningMessage}" FontSize="12" Foreground="{StaticResource WarningTextBrush}"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Заголовок -->
+            <TextBlock Text="Главная" Style="{StaticResource PageTitle}"/>
+            <TextBlock TextWrapping="Wrap" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,20">
+                <Run FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}">ЧТОТиБ Печать</Run>
+                <Run> — приложение для автоматизации печати документов об образовании для выпускников техникума.
+                Выберите необходимое действие по вкладкам слева или перейдите в любой предложенный раздел через кнопки ниже.</Run>
+            </TextBlock>
+
+            <!-- Кнопки-плитки -->
+            <Grid Margin="0,0,0,25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource DashboardTileButton}"
+                        Command="{Binding NavigateToPrintCommand}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Image Source="{StaticResource DashboardPrintIcon}" Width="60" Height="60" Margin="0,0,0,10"/>
+                        <TextBlock Text="Печать&#x0a;документов" TextAlignment="Center" FontSize="14"
+                                   FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="2" Style="{StaticResource DashboardTileButton}"
+                        Command="{Binding NavigateToGroupsCommand}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Image Source="{StaticResource DashboardGroupsIcon}" Width="60" Height="60" Margin="0,0,0,10"/>
+                        <TextBlock Text="Группы&#x0a;и студенты" TextAlignment="Center" FontSize="14"
+                                   FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="4" Style="{StaticResource DashboardTileButton}"
+                        Command="{Binding NavigateToStudentsCommand}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Image Source="{StaticResource DashboardStudentsIcon}" Width="60" Height="60" Margin="0,0,0,10"/>
+                        <TextBlock Text="Все&#x0a;студенты" TextAlignment="Center" FontSize="14"
+                                   FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- Статистика -->
+            <TextBlock Text="Статистика" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,15"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding TotalStudents}" FontSize="40" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Студентов в базе" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding TotalGraduates}" FontSize="40" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Выпускников" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="4" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding DataCompletion}" FontSize="40" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Процент заполненности&#x0a;данных" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="6" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding PrintedToday}" FontSize="40" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Документов напечатано&#x0a;сегодня" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Дополнительная информация -->
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding TotalGroups}" FontSize="32" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Групп" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding TotalSpecialties}" FontSize="32" FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Специальностей" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="4" Style="{StaticResource StatCard}">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding LastPrintDate}" FontSize="16" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                        <TextBlock Text="Последняя печать" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

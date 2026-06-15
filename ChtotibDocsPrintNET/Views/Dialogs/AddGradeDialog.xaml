@@ -1,0 +1,65 @@
+<Window x:Class="ChtotibDocsPrintNET.Views.Dialogs.AddGradeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить оценку" Width="480" Height="Auto" SizeToContent="Height"
+        MaxHeight="620" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Background="{DynamicResource PageBgBrush}">
+    <Grid Margin="25,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Добавить предмет в аттестат" FontSize="20" FontWeight="Bold"
+                   Foreground="{StaticResource TextPrimaryBrush}"/>
+
+        <StackPanel Grid.Row="1" Margin="0,10,0,10">
+            <TextBlock Style="{StaticResource DialogLabel}" Text="Предмет *"/>
+            <ComboBox x:Name="CbSubject" Style="{StaticResource DialogCombo}" DisplayMemberPath="GradePickerDisplay"
+                      SelectionChanged="CbSubject_SelectionChanged"/>
+            <TextBlock x:Name="TbNoSubjects" Visibility="Collapsed" FontSize="11" Foreground="#B71C1C"
+                       Margin="0,6,0,0" TextWrapping="Wrap"/>
+
+            <StackPanel x:Name="PanelDiscipline" Margin="0,0,0,0">
+                <TextBlock Style="{StaticResource DialogLabel}" Text="Оценка *"/>
+                <ComboBox x:Name="CbGrade" Style="{StaticResource DialogCombo}">
+                    <ComboBoxItem Content="5 — отлично"/>
+                    <ComboBoxItem Content="4 — хорошо"/>
+                    <ComboBoxItem Content="3 — удовл."/>
+                    <ComboBoxItem Content="2 — неудовлетворительно"/>
+                </ComboBox>
+
+                <TextBlock Style="{StaticResource DialogLabel}" Text="Тип оценки"/>
+                <ComboBox x:Name="CbGradeType" Style="{StaticResource DialogCombo}">
+                    <ComboBoxItem Content="Итоговая" IsSelected="True"/>
+                    <ComboBoxItem Content="Экзамен"/>
+                    <ComboBoxItem Content="Зачёт"/>
+                    <ComboBoxItem Content="Курсовая"/>
+                    <ComboBoxItem Content="Практика"/>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel x:Name="PanelPractice" Visibility="Collapsed">
+                <TextBlock Style="{StaticResource DialogLabel}" Text="Вид деятельности"/>
+                <TextBox x:Name="TbActivity" Style="{StaticResource DialogInput}" IsReadOnly="True"
+                         Background="#F5F8FC"/>
+
+                <TextBlock Style="{StaticResource DialogLabel}" Text="Средства обучения и воспитания"/>
+                <TextBox x:Name="TbTrainingMeans" Style="{StaticResource DialogInput}"
+                         TextWrapping="Wrap" AcceptsReturn="True" MinHeight="72" MaxHeight="120"
+                         VerticalScrollBarVisibility="Auto"/>
+
+                <TextBlock Style="{StaticResource DialogLabel}" Text="Место прохождения практики *"/>
+                <ComboBox x:Name="CbPracticePlace" Style="{StaticResource DialogCombo}" IsEditable="True"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Отмена" Style="{StaticResource SecondaryButton}"
+                    Click="Cancel_Click" Padding="20,8" Margin="0,0,10,0"/>
+            <Button x:Name="BtnSave" Content="Добавить" Style="{StaticResource ActionButton}"
+                    Click="Save_Click" Padding="20,8"/>
+        </StackPanel>
+    </Grid>
+</Window>

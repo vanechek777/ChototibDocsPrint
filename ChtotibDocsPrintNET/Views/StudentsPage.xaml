@@ -1,0 +1,48 @@
+<UserControl x:Class="ChtotibDocsPrintNET.Views.StudentsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" Background="{DynamicResource PageBgBrush}">
+    <DockPanel Margin="30,20">
+        <TextBlock Text="Студенты" Style="{StaticResource PageTitle}" DockPanel.Dock="Top"/>
+
+        <!-- Фильтры -->
+        <DockPanel DockPanel.Dock="Top" Margin="0,5,0,15">
+            <CheckBox Content="Только выпускники" IsChecked="{Binding ShowOnlyGraduates}"
+                      VerticalAlignment="Center" Margin="0,0,20,0" FontSize="13" DockPanel.Dock="Left"
+                      Foreground="{DynamicResource TextPrimaryBrush}"/>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Image Source="{StaticResource SearchIcon}" Width="18" Height="18" Margin="0,0,5,0"/>
+                <TextBox Style="{StaticResource SearchBox}" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                <Button Style="{StaticResource SuccessButton}" Content="↓ Импорт" FontSize="12" Padding="10,5"
+                        Command="{Binding ImportStudentsCommand}" Margin="10,0,0,0"/>
+                <Button Style="{StaticResource ActionButton}" Content="+" FontSize="18" Padding="8,2"
+                        Command="{Binding AddStudentCommand}" Margin="6,0,0,0"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Статус -->
+        <TextBlock DockPanel.Dock="Bottom" Margin="0,8,0,0" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}">
+            <Run Text="Всего студентов: "/><Run Text="{Binding TotalStudentsCount, Mode=OneWay}"/>
+        </TextBlock>
+
+        <!-- Таблица -->
+        <DataGrid Style="{StaticResource StyledDataGrid}" ItemsSource="{Binding Students}"
+                  ColumnHeaderStyle="{StaticResource DGColumnHeader}" RowStyle="{StaticResource DGRow}">
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenStudentCommand}"
+                              CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№ п/п" Binding="{Binding Id}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Center"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                <DataGridTextColumn Header="Группа" Binding="{Binding GroupName}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

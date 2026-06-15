@@ -1,0 +1,48 @@
+<Window x:Class="ChtotibDocsPrintNET.Views.Dialogs.AddSubjectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить предмет" Width="480" Height="460" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Background="{DynamicResource PageBgBrush}">
+    <Grid Margin="25,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Новый предмет" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+        <ScrollViewer Grid.Row="1" Margin="0,10,0,10"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Disabled">
+        <StackPanel>
+            <TextBlock Style="{StaticResource DialogLabel}" Text="Наименование *"/>
+            <TextBox x:Name="TbName" Style="{StaticResource DialogInput}"/>
+            <TextBlock Style="{StaticResource DialogLabel}" Text="Курс *"/>
+            <ComboBox x:Name="CbCourse" Style="{StaticResource DialogCombo}">
+                <ComboBoxItem Content="1" IsSelected="True"/><ComboBoxItem Content="2"/>
+                <ComboBoxItem Content="3"/><ComboBoxItem Content="4"/>
+            </ComboBox>
+            <TextBlock Style="{StaticResource DialogLabel}" Text="Количество часов"/>
+            <TextBox x:Name="TbHours" Style="{StaticResource DialogInput}"/>
+            <TextBlock Style="{StaticResource DialogLabel}" Text="Тип"/>
+            <ComboBox x:Name="CbType" Style="{StaticResource DialogCombo}">
+                <ComboBoxItem Content="Общеобразовательный" IsSelected="True"/>
+                <ComboBoxItem Content="Профессиональный"/>
+                <ComboBoxItem Content="УП"/>
+                <ComboBoxItem Content="ПП"/>
+                <ComboBoxItem Content="ПДП"/>
+                <ComboBoxItem Content="Курсовая работа"/>
+            </ComboBox>
+            <TextBlock Style="{StaticResource DialogLabel}" Text="Специальность *"/>
+            <ComboBox x:Name="CbSpecialty" Style="{StaticResource DialogCombo}" DisplayMemberPath="ComboDisplay"/>
+            <TextBlock x:Name="TbSpecialtyHint" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"
+                       Margin="0,4,0,0" TextWrapping="Wrap"
+                       Text="«Общие» — предмет для всех специальностей. Иначе выберите код специальности из списка."/>
+            <CheckBox x:Name="ChkExam" Content="Экзамен" FontSize="13" Margin="0,10,0,0"/>
+        </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Отмена" Style="{StaticResource SecondaryButton}" Click="Cancel_Click" Padding="20,8" Margin="0,0,10,0"/>
+            <Button Content="Сохранить" Style="{StaticResource ActionButton}" Click="Save_Click" Padding="20,8"/>
+        </StackPanel>
+    </Grid>
+</Window>

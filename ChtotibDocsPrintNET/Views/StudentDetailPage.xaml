@@ -1,0 +1,218 @@
+<UserControl x:Class="ChtotibDocsPrintNET.Views.StudentDetailPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" Background="{DynamicResource PageBgBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <DockPanel Margin="30,20">
+        <!-- Заголовок -->
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+            <Button Content="← Назад" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"
+                    Command="{Binding GoBackCommand}" Padding="10,5" FontSize="12" Margin="0,0,0,10"/>
+            <TextBlock Text="Студенты" Style="{StaticResource PageTitle}"/>
+
+            <Grid Margin="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding FullName}" FontSize="22" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <Button Margin="10,0,0,0" VerticalAlignment="Center" Cursor="Hand" BorderThickness="0" Background="Transparent"
+                                Command="{Binding ToggleEditCommand}">
+                            <Image Source="{StaticResource EditIcon}" Width="20" Height="20"/>
+                        </Button>
+                    </StackPanel>
+                    <WrapPanel Margin="0,5,0,0">
+                        <TextBlock FontSize="13" Margin="0,0,20,0">
+                            <Run Text="Группа: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding GroupName, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="13" Margin="0,0,20,0">
+                            <Run Text="Регистрационный номер диплома: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding RegistrationNumber, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                    </WrapPanel>
+                    <!-- Доп. информация -->
+                    <WrapPanel Margin="0,5,0,0">
+                        <TextBlock FontSize="12" Margin="0,0,20,0" Foreground="{StaticResource TextSecondaryBrush}">
+                            <Run Text="Дата рождения: "/><Run Text="{Binding BirthDate, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0" Foreground="{StaticResource TextSecondaryBrush}">
+                            <Run Text="Документ об образовании: "/><Run Text="{Binding PreviousEducationDoc, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0" Foreground="{StaticResource TextSecondaryBrush}">
+                            <Run Text="Сведения об образовании: "/><Run Text="{Binding PreviousEducation, Mode=OneWay}"/>
+                        </TextBlock>
+                    </WrapPanel>
+                    <WrapPanel Margin="0,6,0,0">
+                        <WrapPanel.Style>
+                            <Style TargetType="WrapPanel">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Серия бланка диплома: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DiplomaSeriesDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Номер бланка: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DiplomaNumberDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Тип диплома: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DiplomaTypeDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Дата выдачи диплома: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DiplomaIssueDateDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Квалификация на дипломе: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding QualificationDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Код участника демоэкзамена: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DemoExamParticipantCodeDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Результат демоэкзамена: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DemoExamScoreDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock FontSize="12" Margin="0,0,20,0">
+                            <Run Text="Уровень демоэкзамена: " Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <Run Text="{Binding DemoExamLevelDisplay, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                    </WrapPanel>
+                    <Border Margin="0,12,0,0" Padding="12" CornerRadius="6"
+                            Background="{StaticResource CardBgBrush}"
+                            BorderBrush="{StaticResource InputBorderBrush}" BorderThickness="1"
+                            Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="Данные для бланка диплома" FontWeight="SemiBold" Margin="0,0,0,8"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Регистрационный номер (в книге реестра)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditRegistrationNumber, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Серия бланка диплома (напр. 137704)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditDiplomaSeries, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Номер бланка диплома (напр. 0001144)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditDiplomaNumber, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Тип диплома"/>
+                            <ComboBox Style="{StaticResource DialogCombo}" ItemsSource="{Binding DiplomaTypes}"
+                                      SelectedItem="{Binding EditDiplomaType, Mode=TwoWay}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Дата выдачи диплома"/>
+                            <DatePicker SelectedDate="{Binding EditDiplomaIssueDate, Mode=TwoWay}" FontSize="13" Padding="4" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Документ о предыдущем образовании (для приложения)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditPreviousEducationDoc, UpdateSourceTrigger=PropertyChanged}"
+                                     ToolTip="Например: аттестат о среднем общем образовании" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Сведения о предыдущем образовании (школа, год — по желанию)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditPreviousEducation, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Квалификация (как в дипломе; пусто — из специальности группы)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditQualification, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Код участника демоэкзамена (для QR)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditDemoExamParticipantCode, UpdateSourceTrigger=PropertyChanged}"
+                                     ToolTip="Например: 1.1-2023-2025" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Баллы демоэкзамена"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditDemoExamScore, UpdateSourceTrigger=PropertyChanged}"
+                                     ToolTip="Например: 30,14" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Максимум баллов демоэкзамена"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditDemoExamMaxScore, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <TextBlock Style="{StaticResource DialogLabel}" Text="Уровень демоэкзамена (пусто — профильный уровень)"/>
+                            <TextBox Style="{StaticResource DialogInput}" Text="{Binding EditDemoExamLevel, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="Отмена" Style="{StaticResource SecondaryButton}" Padding="16,6" Margin="0,0,8,0"
+                                        Command="{Binding CancelEditCommand}"/>
+                                <Button Content="Сохранить" Style="{StaticResource ActionButton}" Padding="16,6"
+                                        Command="{Binding SaveDiplomaFieldsCommand}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Кнопка печати справа -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Horizontal">
+                    <Button Style="{StaticResource ActionButton}" Command="{Binding PrintDiplomaCommand}" Padding="15,8">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Напечатать диплом" FontSize="13"/>
+                            <Image Source="{StaticResource PrintIcon}" Width="20" Height="20" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <!-- Заголовок таблицы оценок -->
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <TextBlock Text="Оценки" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="15,0,0,0">
+                <Button Style="{StaticResource ActionButton}" Content="+ Добавить предмет" Padding="12,5"
+                        Command="{Binding AddGradeCommand}" FontSize="12" VerticalAlignment="Center"/>
+                <Button Style="{StaticResource SecondaryButton}" Content="🗑 Удалить предмет" Padding="12,5"
+                        Command="{Binding DeleteGradeCommand}" Margin="8,0,0,0" FontSize="12" VerticalAlignment="Center"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Таблица оценок -->
+        <DataGrid Style="{StaticResource StyledDataGrid}" ItemsSource="{Binding GradeRows}"
+                  SelectedItem="{Binding SelectedGradeRow, Mode=TwoWay}"
+                  ColumnHeaderStyle="{StaticResource DGColumnHeader}"
+                  RowStyle="{StaticResource StudentGradesGridRowStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№ п/п" Width="80">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Number"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCourseHeader}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Предмет" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0}{1}">
+                            <Binding Path="CourseName"/>
+                            <Binding Path="SubjectName"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCourseHeader}" Value="True">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Оценка" Binding="{Binding Grade}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCourseHeader}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+    </ScrollViewer>
+</UserControl>

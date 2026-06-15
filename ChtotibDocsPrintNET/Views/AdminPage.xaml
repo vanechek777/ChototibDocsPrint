@@ -1,0 +1,139 @@
+<UserControl x:Class="ChtotibDocsPrintNET.Views.AdminPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:conv="clr-namespace:ChtotibDocsPrintNET.Converters"
+             mc:Ignorable="d" Background="{DynamicResource PageBgBrush}">
+    <UserControl.Resources>
+        <conv:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30,20">
+            <TextBlock Text="Админ-панель" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="Управление справочниками системы" FontSize="13"
+                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,20"/>
+
+            <!-- ===== ДЕМО-ДАННЫЕ ===== -->
+            <Border Background="{StaticResource CardBgBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,25"
+                    BorderBrush="{StaticResource InputBorderBrush}" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Демо-данные" FontSize="20" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,6"/>
+                    <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,12"
+                               Text="Заполняет группы, студентов, оценки и дипломы для тестирования печати. ИСиП-22-1п: дозаполняет данные 4 существующим студентам (новых не добавляет). После запуска обновите список на вкладке «Группы»."/>
+                    <Button Style="{StaticResource ActionButton}" Content="Заполнить группы и студентов"
+                            Command="{Binding SeedDemoDataCommand}" HorizontalAlignment="Left" Padding="16,8" FontSize="13"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ===== СПЕЦИАЛЬНОСТИ ===== -->
+            <DockPanel Margin="0,0,0,25">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Text="Специальности" FontSize="20" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                    <Button Style="{StaticResource ActionButton}" Content="+ Добавить" Padding="12,5"
+                            Command="{Binding AddSpecialtyCommand}" Margin="15,0,0,0" FontSize="12"/>
+                    <Button Style="{StaticResource SecondaryButton}" Content="🗑 Удалить" Padding="12,5"
+                            Command="{Binding DeleteSelectedSpecialtyCommand}" Margin="6,0,0,0" FontSize="12"
+                            IsEnabled="{Binding SelectedSpecialty, Converter={StaticResource NullToBoolConverter}}"/>
+                    <Button Style="{StaticResource SuccessButton}" Content="↓ Импорт" Padding="12,5"
+                            Command="{Binding ImportSpecialtiesCommand}" Margin="6,0,0,0" FontSize="12"/>
+                </StackPanel>
+                <DataGrid Style="{StaticResource StyledDataGrid}" ItemsSource="{Binding Specialties}"
+                          ColumnHeaderStyle="{StaticResource DGColumnHeader}" RowStyle="{StaticResource DGRow}" MaxHeight="200"
+                          RowEditEnding="SpecialtiesGrid_RowEditEnding">
+                    <DataGrid.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Padding" Value="6,2"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.SelectedItem>
+                        <Binding Path="SelectedSpecialty" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                    </DataGrid.SelectedItem>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Код" Binding="{Binding Code, Mode=TwoWay}" Width="100"/>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name, Mode=TwoWay}" Width="*"/>
+                        <DataGridTextColumn Header="Сокращение" Binding="{Binding ShortName, Mode=TwoWay}" Width="200"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <!-- ===== ПРЕДМЕТЫ ===== -->
+            <DockPanel Margin="0,0,0,25">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                        <TextBlock Text="Предметы" FontSize="20" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                        <Button Style="{StaticResource ActionButton}" Content="+ Добавить" Padding="12,5"
+                                Command="{Binding AddSubjectCommand}" Margin="15,0,0,0" FontSize="12"/>
+                        <Button Style="{StaticResource SecondaryButton}" Content="🗑 Удалить" Padding="12,5"
+                                Command="{Binding DeleteSelectedSubjectCommand}" Margin="6,0,0,0" FontSize="12"
+                                IsEnabled="{Binding SelectedSubject, Converter={StaticResource NullToBoolConverter}}"/>
+                        <Button Style="{StaticResource SuccessButton}" Content="↓ Импорт" Padding="12,5"
+                                Command="{Binding ImportSubjectsCommand}" Margin="6,0,0,0" FontSize="12"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <TextBlock Text="Специальность:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                        <ComboBox ItemsSource="{Binding SpecialtiesFilter}" SelectedItem="{Binding SelectedSpecialtyFilter}"
+                                  DisplayMemberPath="Name" Width="200" FontSize="12" Padding="6,4"/>
+                    </StackPanel>
+                </DockPanel>
+                <DataGrid Style="{StaticResource StyledDataGrid}" ItemsSource="{Binding Subjects}"
+                          ColumnHeaderStyle="{StaticResource DGColumnHeader}" RowStyle="{StaticResource DGRow}" MaxHeight="250"
+                          CanUserAddRows="False" CanUserDeleteRows="False"
+                          RowEditEnding="SubjectsGrid_RowEditEnding">
+                    <DataGrid.SelectedItem>
+                        <Binding Path="SelectedSubject" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                    </DataGrid.SelectedItem>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name, Mode=TwoWay}" Width="*"/>
+                        <DataGridComboBoxColumn Header="Специальность" Width="220"
+                                                ItemsSource="{Binding DataContext.SubjectSpecialtyOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                DisplayMemberPath="Name"
+                                                SelectedValuePath="Id"
+                                                SelectedValueBinding="{Binding SpecialtyKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <DataGridTextColumn Header="Курс" Binding="{Binding Course, Mode=TwoWay}" Width="60">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Center"/></Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Часы" Binding="{Binding Hours, Mode=TwoWay}" Width="60">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Center"/></Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип" Binding="{Binding SubjectType, Mode=TwoWay}" Width="150"/>
+                        <DataGridCheckBoxColumn Header="Экзамен" Binding="{Binding IsExam, Mode=TwoWay}" Width="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <!-- ===== ЧЛЕНЫ КОМИССИИ ===== -->
+            <DockPanel Margin="0,0,0,25">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Text="Члены комиссии" FontSize="20" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                    <Button Style="{StaticResource ActionButton}" Content="+ Добавить" Padding="12,5"
+                            Command="{Binding AddCommissionMemberCommand}" Margin="15,0,0,0" FontSize="12"/>
+                    <Button Style="{StaticResource SecondaryButton}" Content="🗑 Удалить" Padding="12,5"
+                            Command="{Binding DeleteSelectedCommissionMemberCommand}" Margin="6,0,0,0" FontSize="12"
+                            IsEnabled="{Binding SelectedCommissionMember, Converter={StaticResource NullToBoolConverter}}"/>
+                </StackPanel>
+                <DataGrid Style="{StaticResource StyledDataGrid}" ItemsSource="{Binding CommissionMembers}"
+                          ColumnHeaderStyle="{StaticResource DGColumnHeader}" RowStyle="{StaticResource DGRow}" MaxHeight="200"
+                          RowEditEnding="CommissionGrid_RowEditEnding">
+                    <DataGrid.SelectedItem>
+                        <Binding Path="SelectedCommissionMember" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                    </DataGrid.SelectedItem>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ФИО" Binding="{Binding FullName, Mode=TwoWay}" Width="*"/>
+                        <DataGridTextColumn Header="Должность" Binding="{Binding Position, Mode=TwoWay}" Width="200"/>
+                        <DataGridTextColumn Header="Роль" Binding="{Binding Role, Mode=TwoWay}" Width="150"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,64 @@
+<UserControl x:Class="ChtotibDocsPrintNET.Views.GroupDetailPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" Background="{DynamicResource PageBgBrush}">
+    <DockPanel Margin="30,20">
+        <!-- Кнопка назад + заголовок -->
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,5">
+            <Button Content="← Назад к группам" Style="{StaticResource ActionButton}" HorizontalAlignment="Left"
+                    Command="{Binding GoBackCommand}" Padding="10,5" FontSize="12" Margin="0,0,0,10"/>
+            <TextBlock Text="Группы" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="{Binding GroupName}" FontSize="20" FontWeight="SemiBold"
+                       Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,5"/>
+            <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,10">
+                <Run Text="Специальность: "/><Run Text="{Binding SpecialtyName, Mode=OneWay}" FontWeight="SemiBold"/>
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Поиск -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Right">
+            <Image Source="{StaticResource SearchIcon}" Width="18" Height="18" Margin="0,0,5,0" VerticalAlignment="Center"/>
+            <TextBox Style="{StaticResource SearchBox}" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+        </StackPanel>
+
+        <!-- Статистика внизу -->
+        <StackPanel DockPanel.Dock="Bottom" Margin="0,15,0,0">
+            <TextBlock Text="Статистика группы" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,5"/>
+            <TextBlock FontSize="12" Foreground="{StaticResource TextSecondaryBrush}">
+                <Run Text="Всего студентов: "/><Run Text="{Binding TotalStudents, Mode=OneWay}" FontWeight="Bold"/>
+            </TextBlock>
+            <Border Background="{StaticResource CardBgBrush}" CornerRadius="10" Padding="8,4" HorizontalAlignment="Left" Margin="0,5,0,0">
+                <TextBlock FontSize="12" Foreground="{StaticResource TextPrimaryBrush}">
+                    <Run Text="Успеваемость: "/><Run Text="{Binding SuccessRate, Mode=OneWay}" FontWeight="Bold"/>
+                </TextBlock>
+            </Border>
+            <WrapPanel Margin="0,10,0,0">
+                <TextBlock FontSize="12" Margin="0,0,30,0">
+                    <Run Text="Количество отличников: "/><Run Text="{Binding ExcellentCount, Mode=OneWay}" FontWeight="Bold"/>
+                </TextBlock>
+                <TextBlock FontSize="12" Margin="0,0,30,0">
+                    <Run Text="Количество хорошистов: "/><Run Text="{Binding GoodCount, Mode=OneWay}" FontWeight="Bold"/>
+                </TextBlock>
+            </WrapPanel>
+        </StackPanel>
+
+        <!-- Таблица студентов -->
+        <DataGrid Style="{StaticResource StyledDataGrid}" ItemsSource="{Binding Students}"
+                  ColumnHeaderStyle="{StaticResource DGColumnHeader}" RowStyle="{StaticResource DGRow}">
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenStudentCommand}"
+                              CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№ п/п" Binding="{Binding Id}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock"><Setter Property="HorizontalAlignment" Value="Center"/></Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>
