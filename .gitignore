@@ -3,7 +3,12 @@
 [Oo]bj/
 [Dd]ebug/
 [Rr]elease/
+publish/
 out/
+
+# Archives (GitHub rejects files >100 MB)
+*.rar
+*.zip
 
 # Agent / local alternate build dirs
 _build*/
